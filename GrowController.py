@@ -14,6 +14,9 @@ DEHUMIDIFIER_PIN = 24
 PUMP_PIN = 25
 SENSOR_PIN = 17  # DHT22 Sensor
 
+# Define I2C bus number
+IIC_BUS = 1
+
 # ------------ You CAN edit values starting here ------------ #
 
 # Define lights on and off times (in 12-hour format with AM/PM)
@@ -39,6 +42,7 @@ humidifier_enabled = True  # Change to True or False
 heater_enabled = True  # Change to True or False
 dehumidifier_enabled = True  # Change to True or False
 pump_enabled = True  # Change to True or False
+sensor_type = SHT30 #DHT22 or SHT30
 
 # ------------ Do NOT edit values past here ------------ #
 
@@ -61,26 +65,38 @@ def print_status(device, status):
         print(f"{device}: \033[91mDisabled\033[0m")
     elif device == "Pump" and not pump_enabled:
         print(f"{device}: \033[91mDisabled\033[0m")
+    elif device == "Sensor" and not sensor_type== "DHT22" and not sensor_type== "SHT30":
+        print(f"{device}: \033[91mIncompatible\033[0m")
     else:
         print(f"{device}: {status}")
 
 # Function to read temperature from DHT22 sensor
 def get_temperature():
-    sensor = Adafruit_DHT.DHT22
-    humidity, temperature = Adafruit_DHT.read_retry(sensor, SENSOR_PIN)
-    if temperature is not None:
-        return temperature * 9/5.0 + 32  # Convert Celsius to Fahrenheit
+    if sensor_type == "DHT22"
+        sensor = Adafruit_DHT.DHT22
+        humidity, temperature = Adafruit_DHT.read_retry(sensor, SENSOR_PIN)
+        if temperature is not None:
+            return temperature * 9/5.0 + 32  # Convert Celsius to Fahrenheit
+        else:
+            return None  # Return None if reading failed
+    elif sensor_type == "SHT30"
+        #paste code to read from sht30 here
     else:
-        return None  # Return None if reading failed
+        return None #Return none if sensor type is not set correctly
 
 # Function to read humidity from DHT22 sensor
 def get_humidity():
-    sensor = Adafruit_DHT.DHT22
-    humidity, temperature = Adafruit_DHT.read_retry(sensor, SENSOR_PIN)
-    if humidity is not None:
-        return humidity
+    if sensor_type == "DHT22"
+        sensor = Adafruit_DHT.DHT22
+        humidity, temperature = Adafruit_DHT.read_retry(sensor, SENSOR_PIN)
+        if humidity is not None:
+            return humidity
+        else:
+            return None  # Return None if reading failed
+    elif sensor_type == "SHT30"
+        #paste code to read from sht30 here
     else:
-        return None  # Return None if reading failed
+        return None #Return none if sensor type is not set correctly
 
 # Function to control the pump based on configured runtime and interval
 def control_pump():
@@ -115,6 +131,7 @@ try:
     time.sleep(5)  # Keep all relays on for 10 seconds
     GPIO.output([LIGHTS_PIN, FAN_PIN, HUMIDIFIER_PIN, HEATER_PIN, DEHUMIDIFIER_PIN], GPIO.HIGH)  # Turn off all relays except the pump
     print("Startup Sequence: \033[92mRelay Test Complete.\033[0m\n")
+    print_status("Sensor", sensor_type)
     time.sleep(3)
     # Main loop for controlling relays based on thresholds...
     while True:

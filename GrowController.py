@@ -83,7 +83,7 @@ def get_temperature():
             return temperature * 9/5.0 + 32  # Convert Celsius to Fahrenheit
         else:
             return None  # Return None if reading failed
-    elif sensor_type == "SHT30"
+    elif sensor_type == "SHT30":
         # SHT30 address, 0x44(68)
         # Send measurement command, 0x2C(44)
         #		0x06(06)	High repeatability measurement
@@ -112,7 +112,7 @@ def get_humidity():
             return humidity
         else:
             return None  # Return None if reading failed
-    elif sensor_type == "SHT30"
+    elif sensor_type == "SHT30":
         # SHT30 address, 0x44(68)
         # Send measurement command, 0x2C(44)
         #		0x06(06)	High repeatability measurement

@@ -76,7 +76,7 @@ def print_status(device, status):
 
 # Function to read temperature from DHT22 sensor
 def get_temperature():
-    if sensor_type == "DHT22"
+    if sensor_type == "DHT22":
         sensor = Adafruit_DHT.DHT22
         humidity, temperature = Adafruit_DHT.read_retry(sensor, SENSOR_PIN)
         if temperature is not None:
@@ -105,7 +105,7 @@ def get_temperature():
 
 # Function to read humidity from DHT22 sensor
 def get_humidity():
-    if sensor_type == "DHT22"
+    if sensor_type == "DHT22":
         sensor = Adafruit_DHT.DHT22
         humidity, temperature = Adafruit_DHT.read_retry(sensor, SENSOR_PIN)
         if humidity is not None:

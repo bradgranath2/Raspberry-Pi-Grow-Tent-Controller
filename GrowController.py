@@ -3,6 +3,7 @@ import datetime
 import time
 import threading
 import Adafruit_DHT
+import smbus
 
 
 # Define pin numbers
@@ -51,6 +52,9 @@ sensor_type = SHT30 #DHT22 or SHT30
 GPIO.setmode(GPIO.BCM)
 GPIO.setup([LIGHTS_PIN, FAN_PIN, HUMIDIFIER_PIN, HEATER_PIN, DEHUMIDIFIER_PIN, PUMP_PIN], GPIO.OUT)
 
+# Get I2C bus
+bus = smbus.SMBus(IIC_BUS) 
+
 # Function to print status with device and status information
 def print_status(device, status):
     if device == "Lights" and not lights_enabled:
@@ -65,7 +69,7 @@ def print_status(device, status):
         print(f"{device}: \033[91mDisabled\033[0m")
     elif device == "Pump" and not pump_enabled:
         print(f"{device}: \033[91mDisabled\033[0m")
-    elif device == "Sensor" and not sensor_type== "DHT22" and not sensor_type== "SHT30":
+    elif device == "Sensor" and not sensor_type == "DHT22" and not sensor_type == "SHT30":
         print(f"{device}: \033[91mIncompatible\033[0m")
     else:
         print(f"{device}: {status}")
@@ -80,7 +84,22 @@ def get_temperature():
         else:
             return None  # Return None if reading failed
     elif sensor_type == "SHT30"
-        #paste code to read from sht30 here
+        # SHT30 address, 0x44(68)
+        # Send measurement command, 0x2C(44)
+        #		0x06(06)	High repeatability measurement
+        bus.write_i2c_block_data(0x44, 0x2C, [0x06])
+
+        time.sleep(0.5)
+
+        # SHT30 address, 0x44(68)
+        # Read data back from 0x00(00), 6 bytes
+        # cTemp MSB, cTemp LSB, cTemp CRC, Humididty MSB, Humidity LSB, Humidity CRC
+        data = bus.read_i2c_block_data(0x44, 0x00, 6)
+
+        # Convert the data
+        cTemp = ((((data[0] * 256.0) + data[1]) * 175) / 65535.0) - 45
+        fTemp = cTemp * 1.8 + 32
+        return fTemp
     else:
         return None #Return none if sensor type is not set correctly
 
@@ -94,7 +113,21 @@ def get_humidity():
         else:
             return None  # Return None if reading failed
     elif sensor_type == "SHT30"
-        #paste code to read from sht30 here
+        # SHT30 address, 0x44(68)
+        # Send measurement command, 0x2C(44)
+        #		0x06(06)	High repeatability measurement
+        bus.write_i2c_block_data(0x44, 0x2C, [0x06])
+
+        time.sleep(0.5)
+
+        # SHT30 address, 0x44(68)
+        # Read data back from 0x00(00), 6 bytes
+        # cTemp MSB, cTemp LSB, cTemp CRC, Humididty MSB, Humidity LSB, Humidity CRC
+        data = bus.read_i2c_block_data(0x44, 0x00, 6)
+
+        # Convert the data
+        humidity = 100 * (data[3] * 256 + data[4]) / 65535.0
+        return humidity
     else:
         return None #Return none if sensor type is not set correctly
 

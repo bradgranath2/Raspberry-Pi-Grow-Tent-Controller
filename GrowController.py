@@ -137,9 +137,9 @@ def control_pump():
         if pump_enabled:
             timestamp = datetime.datetime.now().strftime("%Y-%m-%d %I:%M:%S %p")
             print(f"Current Pump Status:\nPump: \033[92mON\033[0m for {pump_runtime} seconds\nTimestamp: {timestamp}\n")
-            GPIO.output(PUMP_PIN, GPIO.LOW)  # Turn on the pump relay
+            GPIO.output(PUMP_PIN, GPIO.HIGH)  # Turn on the pump relay
             time.sleep(pump_runtime)  # Run the pump for the specified duration
-            GPIO.output(PUMP_PIN, GPIO.HIGH)  # Turn off the pump relay
+            GPIO.output(PUMP_PIN, GPIO.LOW)  # Turn off the pump relay
             timestamp = datetime.datetime.now().strftime("%Y-%m-%d %I:%M:%S %p")
             print(f"Current Pump Status:\nPump: \033[93mOFF\033[0m for {pump_interval} seconds\nTimestamp: {timestamp}\n")
             time.sleep(pump_interval)  # Wait for the remaining interval
@@ -160,9 +160,9 @@ try:
     print("\033[94mDedicated to Emma. My dog who loved to smell flowers and eat vegetables right off the plants.\nMay she rest in peace.\n\033[0m")
     time.sleep(5)
     print("Startup Sequence: \033[93mTesting Relays...\033[0m")
-    GPIO.output([LIGHTS_PIN, FAN_PIN, HUMIDIFIER_PIN, HEATER_PIN, DEHUMIDIFIER_PIN], GPIO.LOW)  # Turn on all relays except the pump
+    GPIO.output([LIGHTS_PIN, FAN_PIN, HUMIDIFIER_PIN, HEATER_PIN, DEHUMIDIFIER_PIN], GPIO.HIGH)  # Turn on all relays except the pump
     time.sleep(5)  # Keep all relays on for 10 seconds
-    GPIO.output([LIGHTS_PIN, FAN_PIN, HUMIDIFIER_PIN, HEATER_PIN, DEHUMIDIFIER_PIN], GPIO.HIGH)  # Turn off all relays except the pump
+    GPIO.output([LIGHTS_PIN, FAN_PIN, HUMIDIFIER_PIN, HEATER_PIN, DEHUMIDIFIER_PIN], GPIO.LOW)  # Turn off all relays except the pump
     print("Startup Sequence: \033[92mRelay Test Complete.\033[0m\n")
     print_status("Sensor", sensor_type)
     time.sleep(3)
@@ -171,41 +171,41 @@ try:
         print("Current Status:")
         check_time = datetime.datetime.now().time()
         if lights_enabled and lights_on_time <= check_time < lights_off_time:
-            GPIO.output(LIGHTS_PIN, GPIO.LOW)
+            GPIO.output(LIGHTS_PIN, GPIO.HIGH)
             print_status("Lights", "\033[92mON\033[0m")
         else:
-            GPIO.output(LIGHTS_PIN, GPIO.HIGH)
+            GPIO.output(LIGHTS_PIN, GPIO.LOW)
             print_status("Lights", "\033[93mOFF\033[0m")
 
         temperature = get_temperature()
         humidity = get_humidity()
 
         if fan_enabled and (temperature >= Temperature_Threshold_Fan or humidity >= Humidity_Threshold_Fan):
-            GPIO.output(FAN_PIN, GPIO.LOW)
+            GPIO.output(FAN_PIN, GPIO.HIGH)
             print_status("Fan", "\033[92mON\033[0m")
         else:
-            GPIO.output(FAN_PIN, GPIO.HIGH)
+            GPIO.output(FAN_PIN, GPIO.LOW)
             print_status("Fan", "\033[93mOFF\033[0m")
 
         if humidifier_enabled and humidity < Humidity_Threshold_Humidifier:
-            GPIO.output(HUMIDIFIER_PIN, GPIO.LOW)
+            GPIO.output(HUMIDIFIER_PIN, GPIO.HIGH)
             print_status("Humidifier", "\033[92mON\033[0m")
         else:
-            GPIO.output(HUMIDIFIER_PIN, GPIO.HIGH)
+            GPIO.output(HUMIDIFIER_PIN, GPIO.LOW)
             print_status("Humidifier", "\033[93mOFF\033[0m")
 
         if dehumidifier_enabled and humidity > Humidity_Threshold_Dehumidifier:
-            GPIO.output(DEHUMIDIFIER_PIN, GPIO.LOW)
+            GPIO.output(DEHUMIDIFIER_PIN, GPIO.HIGH)
             print_status("Dehumidifier", "\033[92mON\033[0m")
         else:
-            GPIO.output(DEHUMIDIFIER_PIN, GPIO.HIGH)
+            GPIO.output(DEHUMIDIFIER_PIN, GPIO.LOW)
             print_status("Dehumidifier", "\033[93mOFF\033[0m")
 
         if heater_enabled and temperature < Temperature_Threshold_Heat:
-            GPIO.output(HEATER_PIN, GPIO.LOW)
+            GPIO.output(HEATER_PIN, GPIO.HIGH)
             print_status("Heater", "\033[92mON\033[0m")
         else:
-            GPIO.output(HEATER_PIN, GPIO.HIGH)
+            GPIO.output(HEATER_PIN, GPIO.LOW)
             print_status("Heater", "\033[93mOFF\033[0m")
 
         if not pump_enabled:

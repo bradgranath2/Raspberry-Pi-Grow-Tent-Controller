@@ -43,7 +43,7 @@ humidifier_enabled = True  # Change to True or False
 heater_enabled = True  # Change to True or False
 dehumidifier_enabled = True  # Change to True or False
 pump_enabled = True  # Change to True or False
-sensor_type = SHT30 #DHT22 or SHT30
+sensor_type = "SHT30" #DHT22 or SHT30
 
 # ------------ Do NOT edit values past here ------------ #
 

@@ -316,7 +316,7 @@ def snap_shot():
 
        #There is a bug in the RPi3B USB controller that cause it to disconnect from all devices. 
        #Currently only fixed by a reboot. So. Here we are. Find a way to remove this ASAP.
-       os.system('systemctl reboot -i')
+       os.system('sudo systemctl reboot -i')
     return img_name
 
 #function to capture a single frame

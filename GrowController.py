@@ -306,7 +306,7 @@ def snap_shot():
     try:
        both = np.concatenate((top,bottom), axis=0)
 
-       img_name = "growbox_" + str(datetime.datetime.now().time()).replace(':','').replace('.','') + ".jpg"
+       img_name = "growbox_" + datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ".jpg"
 
        cv2.imwrite(WORKING_DIR + IMG_SUBDIR + img_name, both, [int(cv2.IMWRITE_JPEG_QUALITY), 30])
        logger.debug(img_name + " written to storage")

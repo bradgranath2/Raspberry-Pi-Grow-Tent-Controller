@@ -9,6 +9,7 @@ Restart=always
 RestartSec=1
 User=bradgranath
 ExecStart=/usr/bin/python /var/www/html/grow/GrowController.py
+KillSignal=SIGINT
 
 [Install]
 WantedBy=multi-user.target

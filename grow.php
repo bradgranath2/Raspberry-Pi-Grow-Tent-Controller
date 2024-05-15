@@ -166,6 +166,9 @@ echo $latestimg['picfile'];
 </table>
 </form>
 </div>
+<div>Growbox Service is: <?php
+    echo trim(shell_exec("systemctl is-active growbox"))
+?></div>
 <div>
 <table>
 <tr>

@@ -1,0 +1,14 @@
+[Unit]
+Description=Growbox Python Service
+After=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=exec
+Restart=always
+RestartSec=1
+User=bradgranath
+ExecStart=/usr/bin/python /var/www/html/grow/GrowController.py
+
+[Install]
+WantedBy=multi-user.target

@@ -308,8 +308,14 @@ def snap_shot():
 
        img_name = "growbox_" + datetime.datetime.now().strftime("%Y%m%d_%H%M%S") + ".jpg"
 
-       cv2.imwrite(WORKING_DIR + IMG_SUBDIR + img_name, both, [int(cv2.IMWRITE_JPEG_QUALITY), 30])
-       logger.debug(img_name + " written to storage")
+       write_status = cv2.imwrite(WORKING_DIR + IMG_SUBDIR + img_name, both, [int(cv2.IMWRITE_JPEG_QUALITY), 30])
+       
+       logger.debug(img_name)
+       if write_status is True:
+              logger.debug("Writing image successful")
+       else:
+              logger.error("Writing image Failed!")
+              img_name = 'noimage'
     except Exception as e:
        logger.error("An error occured while trying to concatonate and write the images " + str(e))
        logger.error("Attempting reboot " + str(datetime.datetime.now().time()))

@@ -34,6 +34,8 @@ IIC_BUS = 1
 # Define the Cameras
 CAM_ID_TOP = 0
 CAM_ID_BOTTOM = 2
+REBOOT_CAM_FAILURE_THRESHOLD=5
+global rebootcount = 0
 
 #set up logging
 logger = logging.getLogger(__name__)
@@ -298,6 +300,7 @@ def control_pump():
 
 #Function to save a picture with the webcam
 def snap_shot():
+    global rebootcount
     img_name = 'noimage'
     top = snap_single(CAM_ID_TOP)
     bottom = snap_single(CAM_ID_BOTTOM)
@@ -322,6 +325,8 @@ def snap_shot():
 
        #There is a bug in the RPi3B USB controller that cause it to disconnect from all devices. 
        #Currently only fixed by a reboot. So. Here we are. Find a way to remove this ASAP.
+       rebootcount++
+       if rebootcount = REBOOT_CAM_FAILURE_THRESHOLD
        os.system('sudo systemctl reboot -i')
     return img_name
 

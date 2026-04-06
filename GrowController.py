@@ -300,7 +300,7 @@ def control_pump():
 
 #Function to save a picture with the webcam
 def snap_shot():
-    global rebootcount
+    #global rebootcount
     img_name = 'noimage'
     top = snap_single(CAM_ID_TOP)
     bottom = snap_single(CAM_ID_BOTTOM)
@@ -370,6 +370,43 @@ def snap_single(index):
     logger.debug("Camera Released")
     return frame
 
+# A function to turn test the relays one at a time for 1 second each
+def do_startup():
+              GPIO.output([LIGHTS_PIN], GPIO.HIGH)  # Turn on each relay
+              print("Lights")
+              time.sleep(1)
+              GPIO.output([LIGHTS_PIN], GPIO.LOW)  # Turn off each relay
+              time.sleep(.5)
+              GPIO.output([FAN_PIN], GPIO.HIGH)  # Turn on each relay
+              time.sleep(1)
+              print("Fan")
+              GPIO.output([FAN_PIN], GPIO.LOW)  # Turn off each relay
+              time.sleep(.5)
+              GPIO.output([HUMIDIFIER_PIN], GPIO.HIGH)  # Turn on each relay
+              time.sleep(1)
+              print("Humidifier")
+              GPIO.output([HUMIDIFIER_PIN], GPIO.LOW)  # Turn off each relay
+              time.sleep(.5)
+              GPIO.output([HEATER_PIN], GPIO.HIGH)  # Turn on each relay
+              time.sleep(1)
+              print("Heater")
+              GPIO.output([HEATER_PIN], GPIO.LOW)  # Turn off each relay
+              time.sleep(.5)
+              GPIO.output([DEHUMIDIFIER_PIN], GPIO.HIGH)  # Turn on each relay
+              time.sleep(1)
+              print("Dehumidifier")
+              GPIO.output([DEHUMIDIFIER_PIN], GPIO.LOW)  # Turn off each relay
+              time.sleep(.5)
+              GPIO.output([PUMP_PIN], GPIO.HIGH)  # Turn on each relay
+              time.sleep(1) 
+              print("Pump")
+              GPIO.output([PUMP_PIN], GPIO.LOW)  # Turn off each relay
+              time.sleep(.5)
+              
+ 
+# print_status("Sensor: ", sensor_type)
+time.sleep(1)
+       
 # Print current settings
  #print("LIGHTS ON:" + str(lights_on_time))
  #print("LIGHTS OFF:" + str(lights_off_time))
@@ -383,17 +420,7 @@ pump_thread.start()
 
 try:
    # Startup sequence to test relay functionality
-   # print("\033[92m\nRaspberry Pi Grow Tent/Room Controller - Version 1.0\033[0m")
-   # print("\033[94mDedicated to Emma. My dog who loved to smell flowers and eat vegetables right off the plants.\nMay she rest in peace.\n\033[0m")
-   # print("OpenCV2 version: " + str(cv2.__version__))
-   # time.sleep(5)
-   # print("Startup Sequence: \033[93mTesting Relays...\033[0m")
-   GPIO.output([LIGHTS_PIN, FAN_PIN, HUMIDIFIER_PIN, HEATER_PIN, DEHUMIDIFIER_PIN, PUMP_PIN], GPIO.HIGH)  # Turn on all relays except the pump
-   time.sleep(1)  # Keep all relays on for 1 second
-   GPIO.output([LIGHTS_PIN, FAN_PIN, HUMIDIFIER_PIN, HEATER_PIN, DEHUMIDIFIER_PIN, PUMP_PIN], GPIO.LOW)  # Turn off all relays except the pump
-   # print("Startup Sequence: \033[92mRelay Test Complete.\033[0m\n")
-   # print_status("Sensor: ", sensor_type)
-   time.sleep(1)
+   do_startup()
 
 
    # Main loop for controlling relays based on thresholds and snapping timelapse pics from the webcam...

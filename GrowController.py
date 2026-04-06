@@ -8,7 +8,7 @@ import sqlite3
 import cv2
 import numpy as np
 import logging
-import os
+#import os
 
 #define directories and filenames
 WORKING_DIR = '/var/www/html/grow/'
@@ -34,8 +34,8 @@ IIC_BUS = 1
 # Define the Cameras
 CAM_ID_TOP = 0
 CAM_ID_BOTTOM = 2
-REBOOT_CAM_FAILURE_THRESHOLD=5
-global rebootcount = 0
+#REBOOT_CAM_FAILURE_THRESHOLD=5
+#global rebootcount = 0
 
 #set up logging
 logger = logging.getLogger(__name__)
@@ -325,9 +325,9 @@ def snap_shot():
 
        #There is a bug in the RPi3B USB controller that cause it to disconnect from all devices. 
        #Currently only fixed by a reboot. So. Here we are. Find a way to remove this ASAP.
-       rebootcount++
-       if rebootcount = REBOOT_CAM_FAILURE_THRESHOLD
-       os.system('sudo systemctl reboot -i')
+       #rebootcount++
+       #if rebootcount = REBOOT_CAM_FAILURE_THRESHOLD
+       #os.system('sudo systemctl reboot -i')
     return img_name
 
 #function to capture a single frame

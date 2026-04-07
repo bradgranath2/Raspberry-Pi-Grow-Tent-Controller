@@ -6,7 +6,7 @@ raspi-config:
   -Enable I2C Bus
   -enlarge file system
   
-Install Python
+Install Python, python3-rpi.gpio, python3_smbus, python3_opencv, 
 Install script dependencies (SQLite3, etc)
 Install Apache2
 Install PhP
